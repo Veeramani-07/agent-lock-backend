@@ -2,8 +2,12 @@
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
-# Auto-detect pom.xml and build project
-RUN mvn clean package -DskipTests
+# Dynamic search for pom.xml location and build
+RUN POM_DIR=$(dirname $(find . -name "pom.xml" | head -n 1)) && \
+    cd $POM_DIR && \
+    mvn clean package -DskipTests && \
+    mkdir -p /app/target && \
+    cp target/*.jar /app/target/
 
 # Stage 2: Run Spring Boot App
 FROM eclipse-temurin:17-jdk-alpine
