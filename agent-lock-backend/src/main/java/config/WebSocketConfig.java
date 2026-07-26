@@ -17,8 +17,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // Handshake endpoint matching React SockJS client URL
-        registry.addEndpoint("/ws-agent-lock")
+        // Handshake endpoints matching React SockJS client URL
+        registry.addEndpoint("/ws-agent-lock", "/ws")
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
